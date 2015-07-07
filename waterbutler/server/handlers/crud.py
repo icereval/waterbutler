@@ -81,12 +81,16 @@ class CRUDHandler(core.BaseProviderHandler):
         if self.arguments.get('displayName'):
             disposition = utils.make_disposition(self.arguments['displayName'])
         else:
+            result_name = getattr(result, 'name', None)
+            if result_name:
+                disposition = utils.make_disposition(result_name)
+            else:
+                disposition = utils.make_disposition(self.arguments['path'].name)
+
             # If the file extention is in mime_types
             # override the content type to fix issues with safari shoving in new file extensions
             if self.arguments['path'].ext in mime_types:
                 self.set_header('Content-Type', mime_types[self.arguments['path'].ext])
-
-            disposition = utils.make_disposition(self.arguments['path'].name)
 
         self.set_header('Content-Disposition', disposition)
 

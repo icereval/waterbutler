@@ -359,7 +359,7 @@ class BaseProvider(metaclass=abc.ABCMeta):
             for item in metadata:
                 current_path = yield from self.revalidate_path(
                     path,
-                    item['name'],
+                    item.downloadName,
                     folder=item['kind'] == 'folder'
                 )
                 if current_path.is_file:
